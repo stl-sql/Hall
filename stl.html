@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STL.SQL - Hall of Clown</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #ffffff;
+            --dark-bg: #0a0a0a;
+            --darker-bg: #000000;
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            background: var(--darker-bg);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* INTRO SECTION */
+        .intro-section {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000000;
+            overflow: hidden;
+        }
+
+        .intro-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.05) 2px, rgba(255, 255, 255, 0.05) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 255, 255, 0.05) 2px, rgba(255, 255, 255, 0.05) 4px);
+        }
+
+        .glitch-container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .stl-sql {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(4rem, 15vw, 12rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--primary);
+            animation: float 6s ease-in-out infinite;
+            text-shadow: 
+                0 0 20px rgba(255, 255, 255, 0.5),
+                0 0 40px rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-20px) scale(1.02); }
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: particleFloat 10s linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            color: var(--primary);
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        /* GALLERY SECTION */
+        .gallery-section {
+            min-height: 100vh;
+            padding: 80px 20px;
+            background: var(--dark-bg);
+            position: relative;
+        }
+
+        .gallery-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: linear-gradient(to bottom, var(--darker-bg), transparent);
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 60px;
+            letter-spacing: 0.15em;
+            color: var(--primary);
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            position: relative;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            background: var(--darker-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            animation: fadeIn 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.15s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.25s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(6) { animation-delay: 0.35s; }
+        .gallery-item:nth-child(7) { animation-delay: 0.4s; }
+        .gallery-item:nth-child(8) { animation-delay: 0.45s; }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .gallery-item:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .gallery-item-image {
+            width: 100%;
+            height: 70%;
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-item-title {
+            padding: 15px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            background: rgba(0, 0, 0, 0.5);
+            height: 30%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.4);
+            position: relative;
+            animation: modalSlideIn 0.4s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: scale(0.8) translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-close:hover {
+            background: var(--primary);
+            color: #000;
+            transform: rotate(90deg);
+        }
+
+        .modal-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .modal-text {
+            line-height: 1.8;
+            font-size: 1rem;
+            color: #e0e0e0;
+            letter-spacing: 0.05em;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1200px) {
+            .gallery-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .modal-content {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- INTRO SECTION -->
+    <section class="intro-section">
+        <div class="particles" id="particles"></div>
+        <div class="glitch-container">
+            <h1 class="stl-sql">STL.SQL</h1>
+        </div>
+        <div class="scroll-hint">↓ SCROLL ↓</div>
+    </section>
+
+    <!-- GALLERY SECTION -->
+    <section class="gallery-section">
+        <h2 class="section-title">Hall of Clown</h2>
+        <div class="gallery-grid" id="gallery"></div>
+    </section>
+
+    <!-- MODAL -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="modalClose">×</span>
+            <h3 class="modal-title" id="modalTitle"></h3>
+            <p class="modal-text" id="modalText"></p>
+        </div>
+    </div>
+
+    <script>
+        // Generate particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 10 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Gallery data - Ajoute tes liens Imgur dans imgUrl
+        const galleryData = [
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' },
+            { imgUrl: '', title: 'SOON', text: 'SOON' }
+        ];
+
+        // Generate gallery
+        const gallery = document.getElementById('gallery');
+        galleryData.forEach((item, index) => {
+            const galleryItem = document.createElement('div');
+            galleryItem.className = 'gallery-item';
+            
+            const imageContent = item.imgUrl 
+                ? `<img src="${item.imgUrl}" alt="${item.title}">`
+                : '';
+            
+            galleryItem.innerHTML = `
+                <div class="gallery-item-image">${imageContent}</div>
+                <div class="gallery-item-title">${item.title}</div>
+            `;
+            galleryItem.addEventListener('click', () => openModal(item));
+            gallery.appendChild(galleryItem);
+        });
+
+        // Modal functionality
+        const modal = document.getElementById('modal');
+        const modalClose = document.getElementById('modalClose');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalText = document.getElementById('modalText');
+
+        function openModal(item) {
+            modalTitle.textContent = item.title;
+            modalText.textContent = item.text;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // Smooth scroll
+        document.querySelector('.scroll-hint').addEventListener('click', () => {
+            document.querySelector('.gallery-section').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
